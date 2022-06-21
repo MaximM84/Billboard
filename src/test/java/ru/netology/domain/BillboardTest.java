@@ -1,61 +1,94 @@
-package ru.netology.domain;
-
-import jdk.internal.jimage.ImageStrings;
+import ru.netology.domain.Billboard;
+import ru.netology.domain.Film;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BillboardTest {
+    Film first = new Film("First", "Fantasy", 1);
+    Film second = new Film("Second", "Drama", 2);
+    Film third = new Film("Third", "Criminal", 3);
+    Film fourth = new Film("Fourth", "Detective", 4);
+    Film fifth = new Film("Fifth", "Comedy", 5);
+    Film sixth = new Film("Sixth", "Drama", 6);
+    Film seventh = new Film("Seventh", "Drama", 7);
+    Film eighth = new Film("Eighth", "Fantasy", 8);
+    Film ninth = new Film ("Ninth", "Melodrama", 9);
+    Film tenth = new Film("Tenth", "Melodrama", 10);
 
     @Test
-    public void shouldRemoverIfExists () {
-        Billboard manager = new Billboard();
-        int idToRemove = 1;
-        Billboard first = new Billboard(1, 1, "first", 1, 1);
-        Billboard second = new Billboard(2, 2, "second", 2, 2);
-        Billboard third = new Billboard(3, 3, "third", 3, 3);
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
+    public void addFilms() {
+        Billboard films = new Billboard();
+        films.add(first);
+        films.add(second);
+        films.add(third);
+        Film[] actual = films.findAll();
+        Film[] expected = {first, second, third};
+        Assertions.assertArrayEquals(actual, expected);
+    }
 
-        manager.removeById(idToRemove);
+    @Test
+    public void findAll() {
+        Billboard films = new Billboard();
+        films.add(first);
+        films.add(second);
+        films.add(third);
+        films.add(fourth);
+        films.add(fifth);
+        films.add(sixth);
+        films.add(seventh);
+        films.add(eighth);
+        films.add(ninth);
+        films.add(tenth);
 
-        Billboard[] actual = manager.getAll();
-        Billboard[] expected = new Billboard[] {third, second};
+        films.findLast();
+
+        Film[] actual = films.findLast();
+        Film[] expected = {tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
+
+        Assertions.assertArrayEquals(actual, expected);
+
 
     }
 
     @Test
-    public void BillboardTest(String[] args) {
-        Billboard first = new Billboard("R1");
-        Billboard second = new Billboard("R2");
-        Billboard third = new Billboard("R3");
-        Billboard fourth = new Billboard("R4");
-        Billboard fifth = new Billboard("R5");
-        Billboard sixth = new Billboard("R6");
-        Billboard seventh = new Billboard("R7");
-        Billboard eighth = new Billboard("R8");
-        Billboard ninth = new Billboard("R9");
-        Billboard tenth = new Billboard("R10");
+    public void findAllWithLimit() {
+        Billboard films = new Billboard(3);
+        films.add(first);
+        films.add(second);
+        films.add(third);
+        films.add(fourth);
+        films.add(fifth);
+        films.add(sixth);
+        films.add(seventh);
+        films.add(eighth);
+        films.add(ninth);
+        films.add(tenth);
 
-        Billboard manager = new Billboard();
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-        manager.add(fourth);
-        manager.add(fifth);
-        manager.add(sixth);
-        manager.add(seventh);
-        manager.add(eighth);
-        manager.add(ninth);
-        manager.add(tenth);
+        films.findLast();
 
-        manager.findAll();
-        Billboard findLast = new Billboard(3);
-        manager.findLast();
+        Film[] actual = films.findLast();
+        Film[] expected = {tenth, ninth, eighth};
+
+        Assertions.assertArrayEquals(actual, expected);
+
 
     }
 
+    @Test
+    public void findAllUnderLimit() {
+        Billboard films = new Billboard(5);
+        films.add(first);
+        films.add(second);
+        films.add(third);
 
+        films.findLast();
+
+        Film[] actual = films.findLast();
+        Film[] expected = {third, second, first};
+
+        Assertions.assertArrayEquals(actual, expected);
+
+
+    }
 }
